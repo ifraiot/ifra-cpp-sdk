@@ -5,6 +5,22 @@
 
 #endif // HARDWAREPLATFORM_H
 #include <ArduinoJson.h>
+#include "Client.h"
+#include "Stream.h"
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+#ifndef IFRA_SERVER
+#define IFRA_SERVER "hub.ifra.io"
+#endif
+
+#ifndef NTP_SERVER
+#define NTP_SERVER "asia.pool.ntp.org"
+#endif
+
+#ifndef MQTT_PORT
+#define MQTT_PORT 1883
+#endif
 
 
 const size_t _capacity = JSON_ARRAY_SIZE(500) + JSON_OBJECT_SIZE(10);
@@ -21,6 +37,8 @@ private:
     char* _base_unit;
     int _recordCount;
     unsigned long int _base_time;
+    Client *client_;
+    PubSubClient mqtt_client_;
     // void callback(char *topic, byte*payload, unsigned int length);
 
 public:

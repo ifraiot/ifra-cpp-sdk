@@ -2,16 +2,6 @@
  
 DynamicJsonDocument _doc(_capacity);
  
-// IfraSDK::IfraSDK() {
-//   std::cout << __FUNCTION__ << std::endl;
-// }
-
-// //-----------------------------------------------------------------------------
-// // DTOR
-// //-----------------------------------------------------------------------------
-// IfraSDK::~IfraSDK() {
-//   std::cout << std::endl << __FUNCTION__ << std::endl;
-// }
  iFraSDK::iFraSDK(){
         
 }
@@ -20,6 +10,12 @@ DynamicJsonDocument _doc(_capacity);
     this->username_ = username;
     this->password_ = password;
     this->hardWarePlatform_ = hardWarePlatform;
+    
+    //Set Client to MQTT client
+    this->client_ = this->hardWarePlatform_->GetClient();  
+    this->mqtt_client_.setClient(*this->client_);
+    this->mqtt_client_.setServer(IFRA_SERVER, MQTT_PORT);
+
 }
 
 iFraSDK::iFraSDK(HardWarePlatform* hardWarePlatform  ,char* channel, char* username, char* password, char* server){
@@ -56,12 +52,43 @@ void iFraSDK::addActuator(char * actuator_name, void (*callbackFunc)(char * topi
 
 }
 
-void iFraSDK::send(){
+void iFraSDK::send() {
+        // char * toptic = "organization/9/messages"
+        // if (_mqtt_client.connected()) {
+        //         char message[4096];
+        //         serializeJson(_doc, message);
+        //         _mqtt_client.publish(toptic, message);
+        //         _mqtt_client.loop();
+        //         //Serial.println(message);
+        // }
 
+        // _doc.clear();
+        // _recordCount = 0;
 }
 
 void iFraSDK::ConnectNetwork(){
-  this->hardWarePlatform_->Connect();
+      this->hardWarePlatform_->Connect();
+
+      while (!this->mqtt_client_.connected()) {
+                Serial.print("Connecting IFRA MQTT...");
+
+                if (this->mqtt_client_.connect(this->username_, this->username_, this->password_)) {
+                        Serial.println("connected ^_^");
+                        // String topic = "OTA/";
+                        // String client_id(_username);
+                        // String full_topic = topic + client_id;
+                        // this->mqtt_client_.subscribe(full_topic.c_str());
+
+                } else {
+                        Serial.print("failed, rc=");
+                        Serial.print(this->mqtt_client_.state());
+                        Serial.println(" try again in 5 seconds");
+                        // Wait 5 seconds before retrying
+                        delay(5000);
+
+       }
+
+      }
 }
 
  
