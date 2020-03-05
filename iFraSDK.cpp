@@ -34,24 +34,10 @@ iFraSDK::iFraSDK(HardWarePlatform* hardWarePlatform  ,char* channel, char* usern
 
 void iFraSDK::addSensor(char * sensor_name, char * unit, float value){
        JsonObject doc = _doc.createNestedObject();
-        if (_base_time != 0 && _recordCount == 0) {
-                doc["bt"] = _base_time;
-        }
-
-        if (_base_name == "") {
-                doc["n"] = sensor_name;
-        } else if (_recordCount == 0) {
-                doc["bn"] = sensor_name;
-        }
-
-        if (_base_unit == "") {
-                doc["u"] = unit;
-        } else if (_recordCount == 0) {
-                doc["bu"] = unit;
-        }
-
-        doc["v"] = value;
-        _recordCount++;
+       doc["n"] = sensor_name;
+       doc["u"] = unit;
+       doc["v"] = value;
+      _recordCount++;
 }
 
 void iFraSDK::addActuator(char * actuator_name, void (*callbackFunc)(char * topic, byte * payload, unsigned int length)){
@@ -59,24 +45,26 @@ void iFraSDK::addActuator(char * actuator_name, void (*callbackFunc)(char * topi
 }
 
 void iFraSDK::send() {
-        // char * toptic = "organization/9/messages"
-        // if (_mqtt_client.connected()) {
-        //         char message[4096];
-        //         serializeJson(_doc, message);
-        //         _mqtt_client.publish(toptic, message);
-        //         _mqtt_client.loop();
-        //         //Serial.println(message);
-        // }
+      if (this->mqtt_client_.connected()) {
+                String channel(this->channel_);
+                String topic = "organization/"+channel+"/messages";
+                
+                char message[4096];
+                serializeJson(_doc, message);
+                this->mqtt_client_.publish(topic.c_str(), message);
+                this->mqtt_client_.loop();
+                Serial.println(message);
+        }
 
-        // _doc.clear();
-        // _recordCount = 0;
+        _doc.clear();
+        _recordCount = 0;
 }
 
 void iFraSDK::ConnectNetwork(){
       this->hardWarePlatform_->Connect();
 
       while (!this->mqtt_client_.connected()) {
-                Serial.print("Connecting IFRA MQTT...");
+                Serial.print("Start connect IFRA MQTT...");
 
                 if (this->mqtt_client_.connect(this->username_, this->username_, this->password_)) {
                         Serial.println("connected ^_^");
