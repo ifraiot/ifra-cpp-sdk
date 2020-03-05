@@ -39,7 +39,6 @@ private:
     unsigned long int _base_time;
     Client *client_;
     PubSubClient mqtt_client_;
-    // void callback(char *topic, byte*payload, unsigned int length);
 
 public:
     iFraSDK();

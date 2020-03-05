@@ -6,14 +6,20 @@ DynamicJsonDocument _doc(_capacity);
         
 }
  iFraSDK::iFraSDK(HardWarePlatform* hardWarePlatform, char* channel, char* username, char* password)  {
+
+    //Assign to global valuable.
+    this->hardWarePlatform_ = hardWarePlatform;
     this->channel_ = channel;
     this->username_ = username;
     this->password_ = password;
-    this->hardWarePlatform_ = hardWarePlatform;
     
-    //Set Client to MQTT client
-    this->client_ = this->hardWarePlatform_->GetClient();  
+    //Get client from strategy sdk
+    this->client_ = this->hardWarePlatform_->GetClient(); 
+
+    //Set Client to MQTT client 
     this->mqtt_client_.setClient(*this->client_);
+
+    //Setup server and port number.
     this->mqtt_client_.setServer(IFRA_SERVER, MQTT_PORT);
 
 }
