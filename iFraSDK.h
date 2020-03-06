@@ -9,6 +9,11 @@
 #include "Stream.h"
 #include <WiFi.h>
 #include <PubSubClient.h>
+ 
+ 
+
+// for convenience
+// using json = nlohmann::json;
 
 #ifndef IFRA_SERVER
 #define IFRA_SERVER "hub.ifra.io"
@@ -21,6 +26,9 @@
 #ifndef MQTT_PORT
 #define MQTT_PORT 1883
 #endif
+
+#define ON 1
+#define OFF 0
 
 
 const size_t _capacity = JSON_ARRAY_SIZE(500) + JSON_OBJECT_SIZE(10);
@@ -39,6 +47,7 @@ private:
     unsigned long int _base_time;
     Client *client_;
     PubSubClient mqtt_client_;
+    
 
 public:
     iFraSDK();
@@ -46,7 +55,10 @@ public:
     iFraSDK(HardWarePlatform* hardWarePlatform  ,char* channel, char* username, char* password, char* server) ;
     void addSensor(char * sensor_name, char * unit, float value);
     void addActuator(char * actuator_name, void (*callbackFunc)(char * topic, byte * payload, unsigned int length));
+    void addEventActuator(char * actuator_name, int value , void (*callbackFunc)(char* actuator_name, float* value));
     void send();
     void ConnectNetwork();
+    bool connected();
+    void reconnect();
 };
 
