@@ -30,6 +30,14 @@ iFraSDK::iFraSDK(HardWarePlatform* hardWarePlatform  ,char* channel, char* usern
     this->password_ = password;
     this->hardWarePlatform_ = hardWarePlatform;
     this->server_ = server;
+        //Get client from strategy sdk
+    this->client_ = this->hardWarePlatform_->GetClient(); 
+
+    //Set Client to MQTT client 
+    this->mqtt_client_.setClient(*this->client_);
+
+    //Setup server and port number.
+    this->mqtt_client_.setServer(this->server_, MQTT_PORT);
 }
 
 void iFraSDK::addSensor(char * sensor_name, char * unit, float value){
