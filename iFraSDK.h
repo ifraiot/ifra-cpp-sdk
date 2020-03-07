@@ -54,7 +54,8 @@ public:
     iFraSDK(HardWarePlatform* hardWarePlatform, char* channel, char* username, char* password);
     iFraSDK(HardWarePlatform* hardWarePlatform  ,char* channel, char* username, char* password, char* server) ;
     void addSensor(char * sensor_name, char * unit, float value);
-    void addActuator(char * actuator_name, void (*callbackFunc)(char * topic, byte * payload, unsigned int length));
+    void addActuator(void (*callbackFunc)(char * actuator_name, int   * value , char * topic, byte * payload, unsigned int length)); //int
+    void addActuator(void (*callbackFunc)(char * actuator_name, float * value , char * topic, byte * payload, unsigned int length)); //float
     void addEventActuator(char * actuator_name, int value , void (*callbackFunc)(char* actuator_name, float* value));
     void send();
     void ConnectNetwork();
