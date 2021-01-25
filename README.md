@@ -1,7 +1,11 @@
 # IfraSDK
+1. ติดตั้ง SDK
+  ดาวน์โหลดไฟล์ https://github.com/ifraiot/ifra-cpp-sdk/archive/master.zip
+  และแตกไฟล์วางในโฟลเดอร์ Arduino/libraries
 
-Example code for ESP32 Device.
-This code will use to control the door to ON/OFF.
+2. ตัวอย่างโค้ดสำหรับ ESP32 เป็นการ Random ค่า 1 - 100 ส่งไปยัง Platform 
+
+*อย่าลืมสร้าง sensor ชื่อ temp ใน measurement
 ```cpp
 
 #include "iFraSDK.h"
