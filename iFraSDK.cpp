@@ -108,13 +108,16 @@ void iFraSDK::send() {
                 this->mqtt_client_.publish(topic.c_str(), message);
                 this->mqtt_client_.loop();
                 Serial.println(message);
+        }else{
+          this->reconnect();
         }
+        
 
         _doc.clear();
         _recordCount = 0;
 }
 
-void iFraSDK::ConnectNetwork(){
+void iFraSDK::wifiConnection(){
 
       this->hardWarePlatform_->Connect();
 

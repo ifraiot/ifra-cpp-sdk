@@ -58,7 +58,7 @@ public:
     void addActuator(void (*callbackFunc)(char * actuator_name, float * value , char * topic, byte * payload, unsigned int length)); //float
     void addEventActuator(char * actuator_name, int value , void (*callbackFunc)(char* actuator_name, float* value));
     void send();
-    void ConnectNetwork();
+    void wifiConnection();
     bool connected();
     void reconnect();
 };
