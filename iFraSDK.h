@@ -16,7 +16,7 @@
 // using json = nlohmann::json;
 
 #ifndef IFRA_SERVER
-#define IFRA_SERVER "hub.ifra.io"
+#define IFRA_SERVER "mqtt.ifra.io"
 #endif
 
 #ifndef NTP_SERVER
