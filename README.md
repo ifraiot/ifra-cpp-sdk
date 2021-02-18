@@ -19,7 +19,7 @@
 #define  CHANNEL       "17f2b49e-a2c7-47d0-9421-a51627f21d14"
 
 iFraESP32SDK esp32(WIFI_SSID, WIFI_PASSWORD);
-iFraSDK client(&esp32, CHANNEL, USERNAME, CHANNEL);
+iFraSDK client(&esp32, CHANNEL, USERNAME, PASSWORD);
 
 void setup() {
   Serial.begin(115200);  
